@@ -31,7 +31,9 @@ namespace CS_Basics.Logic
             foreach (char c in str) 
             {
                 if(Char.IsWhiteSpace(c))
-                { whiteSpaceCount++; }
+                {
+                    whiteSpaceCount++; 
+                }
             }
              
         }

@@ -154,4 +154,41 @@ Date			date				Syatem.Date			10
 			- One base class can have multiple derived classes, Hierarchical Inheritence
 			- If a classs have only one derived class the it is Single Inheritence
 			- If a derive class itself act as a base for for further derivation then it is MultiLevel Inheritence
+	- OOPs
+		- Data Abstraction
+		- Behavior Encapsulation aka Methods those are encapsulating various Operations
+			- A Method can have different Behavior based on
+				- Object Invoking it
+					- Overriding of Methods with Dynamic or Runtime Polymorphism  
+				- Input Parameters, Method Overloading
+					- Type of Input Parameters
+					- Length of Input Parameters
+					- Order of Input Parameters 
+					 
+		- Derivation aka Inheritence
+	- Generics
+		- TypeSafe Approach of Creating Data Structutr in .NET
+		- We define it only once and use it for different .NET Types (Including Custom Types)
+		- The Runtime will create and maintain seperate Binry copies for these types in memory
+		- System.Collections.Generic Namespace
+````csharp
+		- List<T>, Stach<T>, Queue<T>, LinkedList<T>
+		- KeyValuePair<K,V>, Dictionary<K,V>
+````
+		- We can have
+			- Generic class, Interface, method, event, delegate, variable
+
+		- Strategies of passing Parameters to  methods in .NET
+			- By Value
+				- In C# by defualt method accepts all primptive type as 'by value' as inpput parameter where as the class types as passed as 'by ref' 
+			- The 'ref'
+				- pass value type by 'ref' using the 'ref' keyword
+				- the ref type variable MUST be initialized before passing to a method 
+			- The 'out'
+				- Same like 'ref' but we MUST not intialize the varibale before passing to method, instead the method MUST set value for 'out' parameter
+				- Generaly we use this for returning more that one value from the method w/o the return statement
+			- The 'params'
+				- Used to pass variable number of parameters to a method
+
+	
 # Web Apps for Building REST APIs

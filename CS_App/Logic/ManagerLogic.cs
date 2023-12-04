@@ -21,7 +21,11 @@ namespace CS_App.Logic
 
         public override decimal GetIncome(Employee emp)
         {
-            return base.GetIncome(emp);
+            Manager manager = (Manager)emp;
+
+            decimal totalIncome = emp.Salary + manager.FoodAllowance + manager.TA;
+
+            return totalIncome;
         }
     }
 }
