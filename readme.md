@@ -166,11 +166,66 @@ Date			date				Syatem.Date			10
 					- Order of Input Parameters 
 					 
 		- Derivation aka Inheritence
+		- Sealed Class
+			-  Class which Cannot be inherited
+			- C# (3.0+) Extension Methods
+				- A Mechanism of extending a class w/o deriving from it
+				- This is useful when third-party systems nbeeds to be extended w/o any code updates
+				- This offers an object consistency w/o creting new classes and their instances
+			- Rules for Extension Methods
+				- The class that declared an extension method MUST be static (Thred Safe)
+				- The method MUST be static
+				- The First Parameter of this method MUST be 'this' referred reference of the 'class OR interface' for which the method will be uses as an extension method
+````csharp
+ internal static class StringExtensions
+    {
+        public static int GetLength(this string str)
+        { 
+            return str.Length;
+        }
+
+        public static string ChangeCase(this string str, char c)
+        { 
+            if(c == 'l' || c == 'L') return str.ToLower();
+            if(c == 'u' || c == 'U') return str.ToUpper();
+            return str;
+        }
+
+        public static int GetWhiteSpaces(this string str)
+        {
+            int whiteSpaces = 0;
+            foreach(char c in str) 
+            {
+                if(Char.IsWhiteSpace(c))
+                    whiteSpaces++;
+            }
+            return whiteSpaces;
+        }
+    }
+
+````
 	- Generics
 		- TypeSafe Approach of Creating Data Structutr in .NET
 		- We define it only once and use it for different .NET Types (Including Custom Types)
 		- The Runtime will create and maintain seperate Binry copies for these types in memory
 		- System.Collections.Generic Namespace
+		- Custom Generic Class
+		- Generic COnstraints
+			- Guidelkine to restrict the type of T, a generic parameter for performing operations on it
+	- Delegate and Event
+		- A Delegate is a .NET Type that is used to invoke a method wit its Reference
+			- The Signeture of a method MUST match with the Signeture of the delegate
+			- The delegate is always declared at namespace level
+				- the 'delegate' a keyword
+			- Used for 'Asynchronous call and execution of the method'
+			- C# 2.0+  Onwards changes in delegate
+				- Anonymous Method aka a method w/o name
+					- The delegate abstract the implementation in it
+					- Use the Anonymous Method for Utility (or highly reusable logic execution)
+						- Introduced for 'Language Integrated Query (LINQ), C# 3.0'
+				- C# 3.0
+					- The Direct Implementation passed to the delegate will be evaluated as 'An Epression' in binary form known as 'Lambda Expression' 
+			- Used for Declaring an 'Event'
 ````csharp
 		- List<T>, Stach<T>, Queue<T>, LinkedList<T>
 		- KeyValuePair<K,V>, Dictionary<K,V>
