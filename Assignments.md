@@ -17,3 +17,14 @@
 	- Calculate TDS, Gross and NetIncome for Each Employee and Show the Result for each employee on Console Window (Use out for tds, gross and net income)
 	- (Optional but attempt), print NetIncome of each employee in String format
 		- e.g. If NetIncome is 45678, the print it as Fourty Five Thousand Six Hundred Seventy Eight only
+
+# Date: 05-Dec-2023
+
+1. Modify the CS_App Project to have a Generic class that will creating List for all desinations of employees. This generic class will contain mathos for Create, Read, Update, and Delete for all employee types,
+	- This class will also contains a method   to return an employee / employees based on	following
+		- EmpNo
+		- EmpName
+		- DeptName
+		- EmpName and DeptName
+
+

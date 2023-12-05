@@ -226,6 +226,9 @@ Date			date				Syatem.Date			10
 				- C# 3.0
 					- The Direct Implementation passed to the delegate will be evaluated as 'An Epression' in binary form known as 'Lambda Expression' 
 			- Used for Declaring an 'Event'
+				- An Event is a Spcial Delegate that is raised on condition
+				- The Event is declared using delegate and the delegate is responsible to invoke a method that will be exeuted when an event is raised
+				- A delegate that is used to declare an event must have a return type as 'void' 
 ````csharp
 		- List<T>, Stach<T>, Queue<T>, LinkedList<T>
 		- KeyValuePair<K,V>, Dictionary<K,V>
