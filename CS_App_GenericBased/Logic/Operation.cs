@@ -20,7 +20,7 @@ namespace CS_App_GenericBased.Logic
         {
             list = new List<T>();
         }
-
+         // The Add Methods
         public void Add(T item) 
         {
             list.Add(item);
