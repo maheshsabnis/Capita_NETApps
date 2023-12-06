@@ -27,4 +27,7 @@
 		- DeptName
 		- EmpName and DeptName
 
+# Date: 06-Dec-2023
+
+1.	(LAB): Using Parallel class to Process all employees to calculate NetSalary and Tax for each salary using Parallel.ForEach Method. Use 'out' Parameters to return NetSalary and Tax  
 

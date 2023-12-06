@@ -313,5 +313,7 @@ Date			date				Syatem.Date			10
 							- ConcurrentDictionary
 							- ConcurrentQueue
 							- ConcurrentStack
+	- In C# for exception use the 'Exception' class
+		- try{....}catch(Exception ex){.....} block 
 							
 # WebApps	for Building REST APIs
