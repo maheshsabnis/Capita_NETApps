@@ -247,6 +247,71 @@ Date			date				Syatem.Date			10
 				- Generaly we use this for returning more that one value from the method w/o the return statement
 			- The 'params'
 				- Used to pass variable number of parameters to a method
-
-	
-# Web Apps for Building REST APIs
+- USes Cases for Manipulation of Collections as well as Handling various logical operations
+	- Utilizing available cores of Production Server (At Hardware Level) 
+		- Threads
+			- System.Threading
+				- Thread
+					- Worker Thread to execute an Operation (method) on it 
+						- File System Access
+						- Database Access
+						- Network Resources
+				- Monitor, Synchronization
+				- Mutext, Synchronization 
+		- Memory Management
+			- Garbage Collector aka GC class, System.GC
+			- Background Thread for GC as well as Concurrent GC with Asynchronous Memory Mgmt
+		- Large Collection Processing?
+			- foreach..loop / for..loop / while..loop	
+				- Synchronous and Controlled by a Single Thread hence they process the collection sequentially	
+	- .NET Framework 4.0+ and Continue in .NET Core with .NET 5/6/7/8
+		- Task Parallel Library (TPL) , .NET Frwk 4.0
+			- System.Thread.Tasks Namespace
+				- Parallel class
+					- Fully-Automated operation class for Implicitly creating threads, delegating work on it, scheduling it, and releasing it  
+					- Methods
+						- Invoke()
+							- An array of Delegates where each delegate will created  a thread to execute an operation on it
+								- The 'Action' delegate
+						- For()
+							- Used to process a collection by creating threads internally
+						- ForEach()
+							- Same as For(), only the difference is its starts from 0th operations and keep allocating radomly for each record in the collection
+				- Task, vaey important class
+					- A unit of Async operation
+					- A Task is a Thread
+					- BY default an Async Execution
+					- Task and ````csharp Task<T> ````
+						- Task, operation allocated on this will not return value
+						- T is return value type from the operation allocated on Task
+					- TaskFactory, a factory to execute operation inside the Task
+						- Task.Factory.StartNew(OPERATION-TO-BE-EXECUTED) 
+					- Methods
+						- Run()
+						- Wait(), wait until the task is not completed
+						- WaitAll(), must wait for all tasks to comlplete 
+						- ContinueWith()
+							- Continue from One Task to Other Task
+							- Result returned by Previous Task can be send as Input to Other Task
+								- e.g.
+									- Task 1: Will Calculate Gross Salary
+									- Task 2: Will accept Gross Salary and Calculate TDS
+									- Task 3: Will Accept the TDS and then based on Invetsment genretae return calculatrion
+					- .NET Frwk 4.5 + and Continue to .NET Core and .NET 5/6/7/8
+						- The Default Async Methods
+							- FileReadAsync() , FileWriteAsync(), etc.
+							- ExecureReaderAsync(), ExecuteNonQuery(), etc.
+							- UploadAsync(), DownloadAsync(), etc.
+						- Each async method returns a Task Object
+						- C# 4.5 +
+							- The 'async' and 'await'
+								- The async is used for method that returns Task Object
+								- The await is used to infor the runtime that the current method call will be executing asynchornosuly so wait for teh completion of it
+				   - System.Collections.Concurrent
+						- Concurrent Collection, collection those are accessible across threads w/o any locking
+							- ConcurrentBag
+							- ConcurrentDictionary
+							- ConcurrentQueue
+							- ConcurrentStack
+							
+# WebApps	for Building REST APIs
