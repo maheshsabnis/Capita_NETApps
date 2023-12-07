@@ -27,9 +27,11 @@ Task<decimal> t2 = Task.Factory.StartNew<decimal>(() =>
     decimal netsal = p.GetSalary(6700000);
     return netsal;
 })
+    
     /*ContinueWith <T> is responsible to read the Task from the Previous Task using the Runtime */
     .ContinueWith<decimal>((tsal) => /* tsal is the task object from previouds task */ 
 {
+    
     // Result of Previous task
     decimal tds = p.GetTDS(tsal.Result);
     return tds;

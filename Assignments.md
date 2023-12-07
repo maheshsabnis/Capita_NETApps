@@ -31,3 +31,10 @@
 
 1.	(LAB): Using Parallel class to Process all employees to calculate NetSalary and Tax for each salary using Parallel.ForEach Method. Use 'out' Parameters to return NetSalary and Tax  
 
+# Date: 07-Dec-2023
+
+ 	(LAB): Create an application that will query to Employee collection for performing the following
+1.	Sort all Employees by Salary
+2.	Sort all Employees by EmpName
+3.	Group all Employees by DeptName
+4.	Get the Second Max Salary

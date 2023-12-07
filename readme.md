@@ -315,5 +315,43 @@ Date			date				Syatem.Date			10
 							- ConcurrentStack
 	- In C# for exception use the 'Exception' class
 		- try{....}catch(Exception ex){.....} block 
-							
+	- Interface
+		- A Type that contains method declartion
+		- Method does nit have any access specifier, instaed each method is automatically set to the accepss specifier applied for interface
+		- The class can implement one-or-more interfaces (NO Multiple Inheritence) but can be deribed from only one base class 
+		- Rules
+			- When a class implements interface all methods of interface MUST be implemented by class
+			- Methods can be implemented implicitly or Explicitly
+				- Implicit: Methods are owned by Class and Interface both 
+				- Explict: Class only provides implementation but methods are always accessed using Interface reference
+					- If class implements more that one interfaces and these interfaces has one or more methods with same name and signeture then implement interface explicitly 
+	- C# 3.0+
+		- Auto-Implemented Properties
+		- Anonymous Mathods aka Lambda Expression
+		- Object and Collection Initiliazer
+		- Extension Methods
+		- System.Collection.Enumerable class
+			- All Extension Methods written for "IEnumerable interface" 
+				- Select()
+				- Where()
+				- OrderBy(), GroupBy(), Jon(), etc.
+		- Language Integrated Query (LINQ)
+			- A Framework that provide a  mechanism to Query
+				- Collections / Generic Collections ****** HEavily Used
+					- LINQ to Objects aka OLinq
+					- In-Memory Collection are handled like tables 
+						- Used as a foundation for Object-relational-Mapping (ORM) e.g. EntityFramework and EntityFrameworkCore  
+				- Xml document
+					- LINQ to XML aka XLinq 
+					- Used only when the XML is used but this is fastest way of reading and processing XML Documents 
+				- Database Tables with Data Access Objects
+					- LINQ to Database aka DLinq
+						- LINQ to SQL
+						- LINQ to DataSet (ADO.NET)
+					- Pushed beh8ing because of   EntityFramework and EntityFrameworkCore  
+			- Imperative and declarative
+				- Imperative : Uses an Extension Method and Lambda Expression
+					- e.g. Where, Select, etc.
+				- Declarative : Use the Database Like Queries
+					- Keywords like select, where, join, order, etc.
 # WebApps	for Building REST APIs
