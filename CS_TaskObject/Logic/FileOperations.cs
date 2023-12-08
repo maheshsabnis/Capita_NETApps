@@ -24,6 +24,8 @@ namespace CS_TaskObject.Logic
             } // Here the read object will be disposed / destroyed / thrown out of memory
 
 
+          
+
             return contents;
         }
 

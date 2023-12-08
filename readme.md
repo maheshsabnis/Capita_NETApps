@@ -354,4 +354,222 @@ Date			date				Syatem.Date			10
 					- e.g. Where, Select, etc.
 				- Declarative : Use the Database Like Queries
 					- Keywords like select, where, join, order, etc.
-# WebApps	for Building REST APIs
+					- 
+# WebApps for Building REST APIs
+
+- Using Object Relational Mapping (ORM) using EntityFrameworkCore (EF Core)
+	- Entity (C# Classes with Public Properties) are mapped with Database Table Columns for Read/Write Operations 
+	- dotnet ef tool CLI
+		- Run the following command from the Command Prompt / Terminal (Linux / Mac) 
+			- dotnet tool install --global dotnet-ef	
+	- Packages to use EF Core in Application
+		- Microsoft.EntityFrameworkCore , the base package 
+		- Microsoft.EntityFrameworkCore.Relational , the  package for Accessing Relational database
+		- Microsoft.EntityFrameworkCore.SqlServer, for Accessing SQL Server database
+		- Microsoft.EntityFrameworkCore.Design, for establishing Mapping between .NET App and Relation Servre database
+		- Microsoft.EntityFrameworkCore.Tools, used for running dotnet ef CLI ommands for the .NET App
+	- Install Package from CLI
+		- Go to the Project Folder from Command Prompt and run the following command
+			- dotnet add package [PACKAGE-NAME] -v [VERSION-NUMBER] 
+			- dotnet add package Microsoft.EntityFrameworkCore -v 7.0.14
+			- dotnet add package Microsoft.EntityFrameworkCore.Relational -v 7.0.14
+			- dotnet add package Microsoft.EntityFrameworkCore.SqlServer -v 7.0.14
+			- dotnet add package Microsoft.EntityFrameworkCore.Design -v 7.0.14
+			- dotnet add package Microsoft.EntityFrameworkCore.Tools -v 7.0.14
+		
+		- dotnet restore
+			- To install all packages mentioned in .csproj, the Project file
+		- dotnet build
+			- To build the project
+		- dotnet run
+			- To run the project
+			- 
+- Approaches of Using EF Core in application
+	- Database First
+		- Generate Entity Classes and Data Access Operation class from Already available database
+			- used when the Database is Production Ready and no changes will be made in database
+	- Code-First
+		- If the app is developed from scratch and no database is planned already 
+		- Create Entity Classe and Data Access Operation class using C#
+		- Generate Database Migrations, the code-scripts for creating database and table and relationships across tables
+		- Update the Database to generate database with tables in it 
+
+- EF Core Object Model
+	- DbContecxt class
+		- Manage DB Connection
+		- Manage Transactions from Application to Database
+		- Manage Entity Classs Mapping with Database Table using DbSet class 
+			- Defing Entity class to Database Table Mapping using public DbSet properties 
+````csharp
+				 public DbSet<Employee> Employees {get;set;} 
+````
+		
+			- OnConfiguring() method
+				- Defines Connectionstring to Database
+			- OnModelMapping(ModelBuilder builder)
+				- Method that contains code which specifies how the entity class and its properties are mapped with database table column  
+					- e.g. Primary Key, Foreign Key, One-to-One, One-to-Many, Many-to-Many relationships 
+					- This code is known as 'Fluent API'
+
+	- ````csharp DbSet<T> ````
+		- T is the name of Entity class that maps with table named T  
+		- This represents a 'RecordSet' which has all rows for Read/Write purpose
+
+- Stanndard pseduo code for using EF COre for CRUD Operations	
+````csharp
+ // Entity classs
+ public class Employee {}
+
+ // DbContext class is EmpDbContext
+
+ EmpDbContext ctx = new EmpDbContext();
+ 
+ // DbSet of Employee in EmpDbConmtext class is 'Employees'
+  
+  	
+
+ // 1. To Read All Employees
+
+ var emps = ctx.Employees.ToList();
+ // if async read
+  var emps = await ctx.Employees.ToListAsync();
+
+ // 2. To Read Employee based on PK
+ var emp = ctx.Employees.Find(EmpNo); // EmpNo is Primary Key
+ // async
+  var emp = await ctx.Employees.FindAsync(EmpNo);
+
+  // 3. To Append New record in Employee
+  // a. create an instnace of Employee entity and set its propety values
+  Employee newemp = new Employee();
+  newEmp.EmpNo = 100;
+
+  // b. Add it in Employee DbSet
+  ctx.Employees.Add(newEmp);
+  // async
+  await ctx.Employees.AddAsync(newEmp);
+  // c. Commite Transaction
+  ctx.SaveChanges();
+  // async
+  await ctx.SaveChangesAsync();
+
+  // d. Adding Bulk Employees e.g. Employee Entity Array / List
+  ctx.Employees.AddRange();
+  // async
+  await ctx.Employees.AddRangeAsync();
+
+  // 4. To Update Record
+  // a. Search Record Based on Primary Key (Refer No 2.)
+  // b. Update its property values (Refere No 3.a.)
+  // c. Commit Transaction (Refer No. 3.c)
+
+  // 5. To Delete
+  // a. Search Record Based on Primary Key (Refer No 2.)
+  // b. Call remove Method on DbSet
+  ctx.Employees.Remove(emp);
+  // c. Commit Transaction (Refer No. 3.c)
+
+````
+
+
+
+
+
+- CLI Command for Database First Approach
+
+	- dotnet ef dbcontext scaffold "[Database Connection String]" [Database-Provider-Package-Name] -o [Folder-Where-EntityClasses-DataAccessOperaion-Class-To-Be-Generated] -t [TABLE-NAME]
+	
+		- dbcontext: the instructoin given for executing database first
+		- scaffold: An instruction to read database and table schema to generate entities 
+		- Database Connection String:
+			- If Using Windows Authentication
+				- "Data Source=IP-Address-Of-Server / Name-Of-Server-Machine / . / localhost;Initial Catalog=[NAME-OF-THE-DATABASE];Integrated Security=SSPI" 
+			- If using SQL Server Authentication
+				- "Data Source=IP-Address-Of-Server / Name-Of-Server-Machine / . / localhost;Initial Catalog=[NAME-OF-THE-DATABASE]; User Id=[USERT-NAME];Password=[Password]"
+				
+		- Database-Provider-Package-Name
+			- Package for database provider installed
+				- Microsoft.EntityFrameworkCore.SqlServer
+		- -o
+			- Switch to specify the Folder Name in application where Entity Classes and Data Access Operation class is created. Generaly name is 'Models'  
+		- -t
+			- Switch to specify name of the tabel which will be mapped and entity class will be genberated from it.
+			- If this switch is not specified then all tables will be used
+
+- Commands used in CodeFirst Approach
+	- Create Entity class and DbContext class
+		- Entity class(es) will have public properties
+		- DbContext class will have connection string and fluent APIs , and DbSet properties
+	- Generate Db Migrations using Following command
+		- dotnet ef migrations add [MIGRATION-NAME] -c [NAMESSPACE-PATH-TO-DBContecxt-Class] 
+		- e.g.
+			- dotnet ef migrations add firstMigration -c CS_EF_DB_First.MyAppDbContext 
+		- This command will add 'Migrations' folder in project and it will contain files for DB Creation Script
+	- Execute command to Generate Database and Tables based on Migrations
+		- dotnet ef database update  -c [NAMESSPACE-PATH-TO-DBContecxt-Class] 
+		- e.g.
+		 - dotnet ef database update  -c CS_EF_DB_First.MyAppDbContext 
+
+````sql
+Create database UCompany;
+
+-- use databse
+
+Use UCompany
+
+
+USE [UCompany]
+GO
+
+/****** Object:  Table [dbo].[Department]    Script Date: 12/8/2023 12:14:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Department](
+	[DeptNo] [int] NOT NULL,
+	[DeptName] [varchar](200) NOT NULL,
+	[Location] [varchar](100) NOT NULL,
+	[Capacity] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DeptNo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+
+USE [UCompany]
+GO
+
+/****** Object:  Table [dbo].[Employee]    Script Date: 12/8/2023 12:15:29 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Employee](
+	[EmpNo] [int] NOT NULL,
+	[EmpName] [varchar](200) NOT NULL,
+	[Designation] [varchar](200) NOT NULL,
+	[DeptNo] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[EmpNo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Employee]  WITH CHECK ADD FOREIGN KEY([DeptNo])
+REFERENCES [dbo].[Department] ([DeptNo])
+GO
+
+
+````
+
+dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=UCompany;Integrated Security=SSPI" Microsoft.EntityFrameworkCore.SqlServer -o Models
