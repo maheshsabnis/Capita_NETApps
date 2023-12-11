@@ -1,11 +1,11 @@
-Create database UCompany;
-
+Create database UCompany1;
+GO;
 -- use databse
 
-Use UCompany
+Use UCompany1;
 
 
-USE [UCompany]
+ 
 GO
 
 /****** Object:  Table [dbo].[Department]    Script Date: 12/8/2023 12:14:30 PM ******/
@@ -30,7 +30,7 @@ GO
 
 
 
-USE [UCompany]
+USE [UCompany1]
 GO
 
 /****** Object:  Table [dbo].[Employee]    Script Date: 12/8/2023 12:15:29 PM ******/

@@ -38,3 +38,11 @@
 2.	Sort all Employees by EmpName
 3.	Group all Employees by DeptName
 4.	Get the Second Max Salary
+
+
+# Date: 11-Dec-2023
+
+1 Create a repository for Data Access for API Project. Register the DbContext and Repository in DI Container
+2.	The API Controller  with HTTP Action Methods
+	The IActionResult	 
+3. Performing CRUD Operations using HTTP Action Methods

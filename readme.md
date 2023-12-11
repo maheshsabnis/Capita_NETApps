@@ -572,4 +572,91 @@ GO
 
 ````
 
-dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=UCompany;Integrated Security=SSPI" Microsoft.EntityFrameworkCore.SqlServer -o Models
+dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=UCompany;Integrated Security=SSPI" Microsoft.EntityFrameworkCore.SqlServer -o Models 
+
+# ASP.NET Core API
+- Microsoft.AspNetCore.App
+	- ASP.NET Core Runtime having following features
+		- Hosting
+			- Provides and manages hosting on 'Reverse Proxy'
+			- Manages
+				- Dependency Injection (DI) Container
+				- Session
+				- Caching
+				- Security
+				- MVC / Razor / API / Swagger / gRPC / SignalR Procesing
+				- Manages Lifecycle of All Dependencies in DI Container
+				- Manages HTTP Request Pipeline using Middleware
+	- Program.cs
+		- Entry Point to ASP.NET Core App
+		- Create Host Builder using WebApplication class with following settings for the App
+			- DI Services in DI Container
+				- Register all Internal and Extenal Dependencies using 'ServiceDescriptor' class and provoides internal Lifecycle Management for all dependencies those are registered as 'Services'
+				- The 'IServiceCollection' interface to register all services
+				- Methods of ServiceDescriptor class to manages lifecycle of all these services
+					- Singleton Registertaion method 'AddSingleton()'
+					- State of object managed for a session aka Scopped with methods as 'AddScopped()'
+					- State of the object managed for a current request aka Transient with method as 'AddTransient()'  
+						- Database
+						- Custom Services 
+			- Accessing all keys those are present in the Configuration using 'Configuration'
+				- The appsettings.json file will be accessed using Configuration of the type 'IConfiguration' contract
+					- Loging, Database Conection string, Token Signeture, anuy other custom configuration 
+			- Web Application Core Service Options, internally uses IServiceCollection and provides an internal lifecycle management
+				- Session, Caching, Swagger, CORS, Identity
+				- RazorPages for Razor Views
+				- ControllersWithView, for MVC and API both
+				- Controllers, especially for API
+			- Middleware
+				- They are Components those will be added in Http-Request-Pipeline, represented using the 'HttpContext' class for Following
+					- Exception, Cross-Origin-Resource-Sharing (CORS), Static File Access, Authentication, Authorization, Routing, Cahcing, Session, Custom, etc.	
+
+- API Controllers
+	- It is a class that is requested over HTTP
+	- It is used to expose Public HTTP Endpoints so that HTTP Requests can be accepted from client
+	- This defines 'Action Methods' those will be executed based on HTTP Requests
+		- Action Methods, these are the methosd those are mapped with HTTP Request and will be invoked based on the type of HTTP Request
+			- HTTP Request Type
+				- Get
+				- Post
+				- Put
+				- Delete
+	- Technically
+		- The 'ControllerBase', the base class for APIController
+			- This contains Mechanism to Process HTTP Request and contains methods to Generate HTTP Responses
+		- The ApiControllerAttribute class, used as '[ApiController]' as an metadata on Custom Api Controller class
+			- This used to Read HTTP Request Body for HTTP POST and PUT method and maps the Received JSON data from HTTP request body to the CLR clas /  Entity Class input parameter to POST and PUT Actions methods   
+		- RouteAttribute, the class for Routing and applied on Api Controller class as metadata appribute '[Route]'
+			- Maps the Http Reuqest URL with Controller class and its Http Action Method
+				- e.g.
+					- https://server:PORT/api/controller
+						- The 'https' is request schema
+						- The server:PORT, a Address of the Host
+						- The 'api' (optional but generally used) generally a keyword that specifies that the request is made to REST API
+						- The 'controller' the Name of the controller to which the request will be send
+							- E.g. Of Controller Name is 'DepartmentController', then the value of the 'controller' will be 'Department', note the word 'Controller' will be filtered out 
+		- The Http Method Attribute classes
+			- HttpGetAttribute, used as [HttpGet] and its is map the HttpGet Request with Get() Action Method
+				- HttpGet("{ROUTE-TEMPLATE}")
+					- ROUTE-TEMPLATE, the additional value passed in HTTP Request URL
+					- e.g.
+						- https://server:PORT/api/controller/id
+							- The 'id' is by default Route Parameter 
+			- HttpPostAttribute, used as [HttpPost] and its is map the HttpPost Request with Post() Action Method 
+			- HttpPutAttribute, used as [HttpPut] and its is map the HttpPut Request with Put() Action Methosd
+			- HttpDeledteAttribute, used as [HttpDelete] and its is map the HttpDelete Request with DEelete() Action Method 
+		- The 'IActionResult' Contract interface
+			- Is a Return type from each Http Action Method 
+			- By default it is a type of JSON Result or Http Status Code Result
+				- Ok(), NotFound(), COnflict(), BadRequest(), Created(), etc. 
+				- 
+- Controller Design Guidelines
+	- The Controller MUST not Contains Complex Business Logic
+	- The Controller MUST not Directly Access the Database
+	- All Action Methods from the Controller Should Return a Common Schema As a Response That contains the Success Response as well as Error Messages if Any
+	- Controller MUST do Following
+		- Authenticate Each request
+		- Validate POST and PUT Data
+		- Organize the Response
+		- Handle Exception
+
