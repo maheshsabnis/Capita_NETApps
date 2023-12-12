@@ -46,3 +46,9 @@
 2.	The API Controller  with HTTP Action Methods
 	The IActionResult	 
 3. Performing CRUD Operations using HTTP Action Methods
+
+# Date: 12-Dec-2023
+
+1. Consuming the API in Web App and configure the API for CORS so that it can be accessed.
+2. Create a C# Managed Client to Perform CRUD Operations for Employee Controller 
+3. Create a SerachAPIController, this will have an action method that will accept DeptName as input parameter and return all Employees workign in this DeptName  (Now)  

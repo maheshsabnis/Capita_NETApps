@@ -660,3 +660,51 @@ dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=UCompany;Integrated 
 		- Organize the Response
 		- Handle Exception
 
+# ASP.NET Core Programming Extensibility
+- Validations
+	- Data Validations, the System.ComponentModel.DataAnnotations namespace with the 'ValidationAttribute' abstract class. This class has the 'IsValid()' method to validate input Parameter
+		- Standard Validations
+			- RequiredAttribute
+			- StringLengthAttribute
+			- RegExAttribute
+			- .... and so on 
+		- Custom Validations
+			- Define class derived from the ValidationAttribute and Override the IsValid() method 
+	- Exceptions
+		- Controller Level Exceptions, including Action Methooid Specific or for all actions in a controller
+			- try..catch block
+			- Use Action Filters if some logic to be commonly executed only for MVC and API Controllers or their Action Methods (IMP Note: If using Razor Views in Same MVC and API projects, the avoid using ActionFilters, instead use Middlewares)
+				- ActionFilterAttribute class, the base class for All Filtres
+					- AuthenticationFilter (Used throguh the Identity Middleware)
+					- AuthorizationFilter (Used throguh the Identity Middleware)
+					- ResourceFilter (Check for Controller and Action Methods)
+					- ActionFilter (Custom Filter)
+					- ResultFilter (Eveluate the IActionResult)
+					- ExcpetionFilter (If Exception Filter is used for Controllers then Do not write and use Exception Middleware)
+				- Filters can be applied at Global Level, Controller Level, and Action Level
+				- Order of Execution of Filters
+					- Global OnActionExecuting
+					- Controller OnActionExecuing
+					- Action Method OnActionExecuting
+					- Action Method OnActionExecuted
+					- Controller OnActionExecuted
+					- Global OnActionExecuted
+					
+		- Exception for whole HTTP Pipeline
+- Request Management from Client
+	- Accepting and Processing Request received from Client
+		- Cross Origin resource Sharing (CORS)
+	- Identity Validations for Request
+		- Authentication and Authorization
+			- User Based Authentication
+			- Role and Policy Based Authorization 
+
+- Using HttpClient Class
+	- System.Net.Http namespace
+		- GetAsync(), PostAsync(), PutAsync(), and DeleteAsync()
+		- JSON Extension Methods
+````csharp
+			- GetAsJsonAsync<T>(), PostAsJsonAsync<T>(), etc. 
+````
+			- T is the Generic Type that will be received from REST API or to be posted to REST API 
+

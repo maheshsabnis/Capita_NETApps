@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnget").on('click', function () {
+                $.ajax({
+                    /* Code for HTTP Call */
+                    url: "https://localhost:7298/api/Department/get",
+                    method: "GET"
+                }).done(function (resp) {
+                    /* Success */
+                    alert(JSON.stringify(resp));
+                }).fail(function (error) {
+                    /* Fail */
+                    console.log("Error Occurred");
+                });
+            }); 
+
+
+            $("#btnpost").on('click', function () {
+                let dept = {
+                    "DeptNo": 70,
+                    "DeptName": "Dept-70",
+                    "Location": "Pune",
+                    "Capacity": 899
+                }
+                $.ajax({
+                    /* Code for HTTP Call */
+                    url: "https://localhost:7298/api/Department/post",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(dept),
+                    dataType:"json"
+                }).done(function (resp) {
+                    /* Success */
+                    alert(JSON.stringify(resp));
+                }).fail(function (error) {
+                    /* Fail */
+                    console.log("Error Occurred");
+                });
+            }); 
+
+        });
+    </script>
+</head>
+<body>
+    <button id="btnget">Get Data</button>
+    <hr />
+    <button id="btnpost">Post Data</button>
+</body>
+</html>
