@@ -659,6 +659,7 @@ dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=UCompany;Integrated 
 		- Validate POST and PUT Data
 		- Organize the Response
 		- Handle Exception
+			- try..catch 
 
 # ASP.NET Core Programming Extensibility
 - Validations
@@ -708,3 +709,63 @@ dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=UCompany;Integrated 
 ````
 			- T is the Generic Type that will be received from REST API or to be posted to REST API 
 
+
+- Using Middleware Technically
+	- A 'RequestDelegate' delegate
+		- A Delegate that invokes the Midleware in HTTP request pipeline
+````csharp
+	public delegate Task RequestDelegate(HttpContext context);
+
+	public async Task InvokeAsync(HttpContext contect) { /*LOGIC*/  }
+````
+		- InvokeAsync() method that contains the logic of Middleware  
+	- IApplicationBuilder Contract
+		- IMiddleware Contract Interface
+		- The 'Use()' of  IApplicationBuilder, to register the Middleware in HTTP Pipeline
+````csharp
+		UseMiddleware<T>(this IApplicationBuilder builder)
+		{
+		   /* LOGIC to register*/
+		}
+````
+		- The  'T' is the Middleware class that is constructor injected using the 'RequestDelegate' 
+
+# ASP.NET Core Security
+
+- Microsoft.AspNetCore.Identyity
+	- A BAse Framework for Security 
+- Microsoft.AspNetCore.Identyity.EntiryFrameworkCore
+	- Provides a Code-First Approach to create a Database and Identity Table Schemas to store Users, Roles, etc. Information in Database
+- System.IdentityModel.JwtBearer
+	- For JSON Web Tokens 
+
+- Object Model
+	- IdentityUser
+		- Used to Create and Manage Users
+	- IdentityRole
+		- Used to Create and Manage Roles
+````csharp
+	- UserManager<IdentityUser>
+		- Used to Manage Application Users to Create , Read, Update
+		- Takes care of PasswordHash
+		- Assign Role to User
+	- RoleManager<IdentityRole>
+		- Used to Manage Application Role to Create , Read, Update
+	- SignInManager<IdentityUser>
+		- Used to Manage the SignIn and SignOut
+		- Used to define Identity Cookie for Login User
+
+	- Identity Services to be added in DI Container
+		- The 'AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStore<DbContext>()'
+			- AddIdentity<IdentityUser,IdentityRole>(), register the 'UserManager<IdentityUser>' and  'RoleManager<IdentityRole>' and 'SignInManager<IdentityUser>' classes in DI Container
+			- AddEntityFrameworkStore<DbContext>()
+				- Please Note that the DbContext class MUST be already registered in DI Container using 'AddDbContext()' method
+				- Configure the EF Core DbContext class with Idenitty Service to provide DB infromation where the Application Users and Role are stored
+		- If using the Tokens then to validate the Toke use
+			- AddAuthorization() method for Token Validation Service
+		- UseAuthentication()
+			- Middleware for USer-BAsed Authentication
+		- UseAuthorization()
+			- Middlewsare for Role-Based Authorization
+````
+	

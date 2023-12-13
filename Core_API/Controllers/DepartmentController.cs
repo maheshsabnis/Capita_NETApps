@@ -51,8 +51,8 @@ namespace Core_API.Controllers
         [ActionName("post")]
         public async Task<IActionResult> Post(Department dept)
         {
-            try
-            {
+            //try
+            //{
                 /// ModelState is used to validate the Model e.g. Department object
                 /// based on Rules for Annotations applied on each property of Department class
                 if (ModelState.IsValid)
@@ -70,21 +70,23 @@ namespace Core_API.Controllers
                     return BadRequest(errorResponse);
                 }
 
-            }
-            catch (Exception ex)
-            {
-                var errorResponse = new ResponseObject<Department>();
-                errorResponse.Message = $"Error Occurred : {ex.Message}";
-                errorResponse.StatusCode = 500;
-                return BadRequest(errorResponse);
-            }
-            return BadRequest(ModelState);
+            //}
+            //catch (Exception ex)
+            //{
+            //    // Code for Logging
+            //    var errorResponse = new ResponseObject<Department>();
+            //    errorResponse.Message = $"Error Occurred : {ex.Message}";
+            //    errorResponse.StatusCode = 500;
+            //    return BadRequest(errorResponse);
+            //}
+             return BadRequest(ModelState);
 
         }
         [HttpPut("{id}")]
         [ActionName("put")]
         public async Task<IActionResult> Put(int id, Department dept)
         {
+            if (id == 0) throw new Exception($"ID : {id} Can not be zero");
             var response = await deptServ.UpdateAsync(id,dept);
             return Ok(response);
         }

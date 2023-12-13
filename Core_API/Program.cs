@@ -1,5 +1,6 @@
 //`1. Host Builder
 using Core_API.CustomActionFilters;
+using Core_API.CustomMiddlewares;
 using Core_API.Models;
 using Core_API.Services;
 using Microsoft.EntityFrameworkCore;
@@ -53,10 +54,23 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 // Add CORS Middleware based on POLICY
 app.UseCors("corspolicy");
 app.UseAuthorization();
 
+/*
+   Register the Custom Exception Milddleware
+ */
+
+app.UseAppExceptionHandler();
+
+
+/*
+   Read the URL and Match it with the Route Table (No Direct Route Table as such)
+   The MapControllers() is responsible to Read the HTTP URL, and HTTP Request Type (GET/POST/PUT/DELETE)
+ */
 app.MapControllers();
+/* https://server/Application/api/controller/action */
 
 app.Run();

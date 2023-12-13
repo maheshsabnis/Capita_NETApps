@@ -52,3 +52,17 @@
 1. Consuming the API in Web App and configure the API for CORS so that it can be accessed.
 2. Create a C# Managed Client to Perform CRUD Operations for Employee Controller 
 3. Create a SerachAPIController, this will have an action method that will accept DeptName as input parameter and return all Employees workign in this DeptName  (Now)  
+
+
+# Date : 13-Dec-2023
+
+1. Create a Middleware called as 'UseAppLogger()' which we do  following
+	- Log Each Incomming Request into 'Logger' Table in Database, the Information logged will be as below
+		- LogId: GuId
+		- LogDate: Date
+		- LogTime: Time
+		- Controller: varchar
+		- Action: varchar
+		- Header: varchar
+		- Method: varchar
+		- ErrorMessage: varchar
