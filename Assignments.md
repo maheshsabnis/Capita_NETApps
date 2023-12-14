@@ -66,3 +66,21 @@
 		- Header: varchar
 		- Method: varchar
 		- ErrorMessage: varchar
+
+# Date: 14-Dec-2023
+
+1. Modify the AuthenticationService class for following requirements
+	- Before registering new user make sure that the user doesnot exist
+	- Before createing new role make sure that the role does not exist
+	- Before assigning Role to user make sure that the role and user are exist and the user alredy does not have any role
+	- Before authenticating the user make sure that the user has role assigned to it
+2. When Application run for the first time do the following
+	- Create a Role Named 'Administrator'
+	- Create a User Name 'admin@myapp.com'
+	- Assign the 'Administrator' to 'admin@myapp.com'
+	- Make sure that following operations can be performed only by Administrator
+		- Creating New Role
+		- Assigneing Role to User
+	- HINT:
+		- https://www.webnethelper.com/2022/03/aspnet-core-6-using-role-based-security.html 
+

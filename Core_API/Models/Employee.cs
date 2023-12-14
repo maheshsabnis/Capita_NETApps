@@ -13,5 +13,5 @@ public partial class Employee : EntityBase
 
     public int DeptNo { get; set; }
 
-    public virtual Department DeptNoNavigation { get; set; } = null!;
+    public virtual Department DeptNoNavigation { get; set; } = null;
 }

@@ -769,3 +769,7 @@ dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=UCompany;Integrated 
 			- Middlewsare for Role-Based Authorization
 ````
 	
+- Command to Generate Migrations for AspNet Security
+	- dotnet ef migrations add securityMigration -c Core_API.Models.CapSecurityDbContext
+- Command to generate the security database based on the Migrations
+	- dotnet ef database update -c Core_API.Models.CapSecurityDbContext 

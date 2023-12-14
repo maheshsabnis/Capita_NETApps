@@ -3,7 +3,9 @@ using Core_API.CustomActionFilters;
 using Core_API.CustomMiddlewares;
 using Core_API.Models;
 using Core_API.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +17,41 @@ builder.Services.AddDbContext<UcompanyContext>(options =>{
     options.UseSqlServer(builder.Configuration.GetConnectionString("AppConnStr"));
 });
 
+
+//1.a. Register the CapSecurityDbContext class in DI Container as DbContext
+builder.Services.AddDbContext<CapSecurityDbContext>(options => {
+    /* Define the ConnectionString*/
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SecurityConnStr"));
+});
+
+
+// 1.b. Register the Identity Service to Register and Resolve
+// UserManager<IdentityUser>, RoleManager<IdentityRole>, and SignInManager<IdentityUser>
+// This will write and read the Users' and Roles' infromation from the
+// Database using EF Core
+builder.Services.AddIdentity<IdentityUser,IdentityRole>()
+    .AddEntityFrameworkStores<CapSecurityDbContext>();
+
+// 1.c. Define Policies
+
+builder.Services.AddAuthorization(options => 
+{
+    // 1.c.1. Add the Read Policy
+    options.AddPolicy("readpolicy", policy => policy.RequireRole("Manager", "Clerk", "Operator"));
+    // 1.c.2. Add the Add/Edit Policy
+    options.AddPolicy("addeditpolicy", policy => policy.RequireRole("Manager", "Clerk"));
+    // 1.c.3. Add the Delete Policy
+    options.AddPolicy("deletepolicy", policy => policy.RequireRole("Manager"));
+});
+ 
+
 // 2 Registering the Custom Department and Employee Services
 
 builder.Services.AddScoped<IDataAccessService<Department, int>, DepartmentDataService>();
+builder.Services.AddScoped<IDataAccessService<Employee, int>, EmployeeDataService>();
+// Register the AuthenticateService
+builder.Services.AddScoped<AuthenticationService>();
+
 
 /* Add the Cors Origin Resource Sharing (CORS) service*/
 builder.Services.AddCors(options => options.AddPolicy("corspolicy", policy=> 
@@ -57,6 +91,9 @@ app.UseHttpsRedirection();
 
 // Add CORS Middleware based on POLICY
 app.UseCors("corspolicy");
+// Add the Authentication Middleware
+// These Middlewares are based on AddIdentity() service 
+app.UseAuthentication();
 app.UseAuthorization();
 
 /*
