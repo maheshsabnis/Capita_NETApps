@@ -23,4 +23,10 @@
         public string? UserName { get; set; }
         public string? RoleName { get; set; }
     }
+
+    public record SecurityResponse
+    {
+        public string? Token { get; set; }
+        public bool IsSuccess { get; set; }
+    }
 }

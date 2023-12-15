@@ -45,10 +45,10 @@ namespace Core_API.Controllers
         {
             try
             {
-                var isUserLoggedIn = await authenticationService.AuthenticateUser(user);
-                if (isUserLoggedIn)
+                var response = await authenticationService.AuthenticateUser(user);
+                if (response.IsSuccess)
                 {
-                    return Ok($"User {user.UserName} is authenticated Successfully");
+                    return Ok(response);
                 }
                 return BadRequest($"Error Occurred While Authenticating User");
             }

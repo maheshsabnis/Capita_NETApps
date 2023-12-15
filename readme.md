@@ -773,3 +773,32 @@ dotnet ef dbcontext scaffold "Data Source=.;Initial Catalog=UCompany;Integrated 
 	- dotnet ef migrations add securityMigration -c Core_API.Models.CapSecurityDbContext
 - Command to generate the security database based on the Migrations
 	- dotnet ef database update -c Core_API.Models.CapSecurityDbContext 
+
+- Token in ASP.NET Core
+	- JSON Web Tokens (JWT)
+		- Platform and Technology independent mode for Security from Client App to API 
+	- JWT Structure
+		- Header.Payload.Signeture 
+			- Header
+				- Algorithm for Encryption
+					- Issuer Validated Algorithm 
+				- Token Type i.e. JWT, SAML, etc.
+			- Payload
+				- Identity Information stored in Token  
+				- ASP.NET Core
+					- Claims as Payload
+						- UserName, Roles, Any other User Spcific Identity Information
+					- The Claim is Decoded to Authorize the Client to Access API Resources
+			- Signeture
+				- Integrity Check to Verify the Token so that it will be accepted to Process the Request 
+					- Encyrption Key 64-bit, 512-bit key 
+	- Microsoft.AspNetCore.Authorization.JwtBearer and System.IdentityModel.Tokens.Jwt	
+		- Microsoft.AspNetCore.Authentication.JwtBearer
+			- Used by ASP.NET Core Runtime to Authorize the request that contains token
+		- System.IdentityModel.Tokens.Jwt	
+			- Used to Generate Token	 
+
+# ASP.NET Core App Deployment
+- Cloud Deployment
+	- Migrate Databases from Local On-Premises to Cloud 
+		- Note: Make sure that the database is not using the NetworkService login	

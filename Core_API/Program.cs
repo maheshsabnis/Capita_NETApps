@@ -3,9 +3,11 @@ using Core_API.CustomActionFilters;
 using Core_API.CustomMiddlewares;
 using Core_API.Models;
 using Core_API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +34,37 @@ builder.Services.AddDbContext<CapSecurityDbContext>(options => {
 builder.Services.AddIdentity<IdentityUser,IdentityRole>()
     .AddEntityFrameworkStores<CapSecurityDbContext>();
 
-// 1.c. Define Policies
+
+// 1.c. Configure the Host by the service to Verify the Token
+// Read the Secert Key 
+
+var secretKey = Convert.FromBase64String(builder.Configuration["JWTSettings:SecretKey"]);
+
+// USe AddAuthentication() service to tell the Host about the token
+
+builder.Services.AddAuthentication(auth =>
+{
+    // Auth Headers MUST be Present into the Request  along with the value as
+    // bearer
+    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    /* Actually Verify the Token */
+    .AddJwtBearer(token => 
+    {
+        token.RequireHttpsMetadata = false;
+        token.SaveToken = true;
+        token.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+        };
+    }) ;
+
+
+// 1.d. Define Policies
 
 builder.Services.AddAuthorization(options => 
 {
@@ -81,13 +113,13 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
-app.UseHttpsRedirection();
+ app.UseHttpsRedirection();
 
 // Add CORS Middleware based on POLICY
 app.UseCors("corspolicy");

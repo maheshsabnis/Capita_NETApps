@@ -1,6 +1,7 @@
 ﻿using Core_API.CustomActionFilters;
 using Core_API.Models;
 using Core_API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace Core_API.Controllers
     /// 
     /// Filter At Controller Level
    // [LogFilter]
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class DepartmentController : ControllerBase
